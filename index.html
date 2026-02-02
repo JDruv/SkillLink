@@ -3,181 +3,1130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeGenerator Pro | Download</title>
+    <meta name="description" content="SkillLink">
+    <title>SkillLink</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./SkillLink.png">
     
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        /* * ==========================================
+         * 1. VARIABILI & RESET
+         * ==========================================
+         */
         :root {
-            --primary: #00ff88;
-            --bg: #0a0a0b;
-            --card-bg: #16161a;
+            /* Palette Principale */
+            --col-bg-deep: #050a14;
+            --col-bg-dark: #0a192f;
+            --col-primary: #007bff; 
+            --col-accent: #00b4d8;  
+            --col-glow: #90e0ef;    
+            --col-white: #ffffff;
+            --col-text-muted: #8892b0;
+            
+            /* Status Colors */
+            --col-gold: #ffd700;
+            --col-silver: #c0c0c0;
+            --col-bronze: #cd7f32;
+
+            /* Spacing & Layout */
+            --nav-height: 80px;
+            --container-width: 1200px;
+            
+            /* Glassmorphism Vars */
+            --glass-bg: rgba(10, 25, 47, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-blur: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            -webkit-tap-highlight-color: transparent; /* Rimuove highlight blu su mobile */
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px; /* Base size */
         }
 
         body {
-            background: var(--bg);
-            color: #fff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--col-bg-deep);
+            color: var(--col-white);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Sfondo animato */
-        .grid {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background-image: linear-gradient(rgba(0, 255, 136, 0.05) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0, 255, 136, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg);
-            z-index: -1;
-            animation: move 20s linear infinite;
+        h1, h2, h3, h4, h5 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: var(--col-white);
         }
 
-        @keyframes move {
-            from { transform: perspective(500px) rotateX(60deg) translateY(0); }
-            to { transform: perspective(500px) rotateX(60deg) translateY(50px); }
-        }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
 
+        /* Scrollbar Personalizzata */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--col-bg-deep); }
+        ::-webkit-scrollbar-thumb { background: var(--col-accent); border-radius: 4px; }
+
+        /* * ==========================================
+         * 2. UTILITY CLASSES
+         * ==========================================
+         */
         .container {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(0, 255, 136, 0.1);
-            border: 1px solid rgba(255,255,255,0.05);
-            max-width: 400px;
-            width: 90%;
-            backdrop-filter: blur(10px);
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            width: 100%;
         }
 
-        h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #fff, var(--primary));
+        .text-gradient {
+            background: linear-gradient(135deg, var(--col-white) 0%, var(--col-accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        
+        .text-accent { color: var(--col-accent); }
+        .text-center { text-align: center; }
 
-        .version {
-            font-size: 12px;
-            background: rgba(0, 255, 136, 0.1);
-            color: var(--primary);
-            padding: 4px 12px;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 30px;
             border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--col-primary) 0%, var(--col-accent) 100%);
+            color: var(--col-white);
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 180, 216, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--col-accent);
+            color: var(--col-accent);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 180, 216, 0.1);
+            color: var(--col-white);
+            border-color: var(--col-white);
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        /* Responsive Padding adjustment */
+        @media (max-width: 768px) {
+            .section-padding { padding: 60px 0; }
+        }
+
+        /* * ==========================================
+         * 3. COMPONENTS
+         * ==========================================
+         */
+
+        /* Background Canvas */
+        #network-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(5, 10, 20, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1001; /* Sopra al menu mobile */
+        }
+        
+        @media (min-width: 769px) {
+            .logo { font-size: 1.8rem; }
+        }
+
+        .logo i { color: var(--col-accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--col-text-muted);
+            position: relative;
+        }
+
+        .nav-links a:hover { color: var(--col-white); }
+        
+        /* Hamburger Menu Icon (Hidden on Desktop) */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+            font-size: 1.5rem;
+            color: var(--col-white);
+        }
+
+        /* Responsive Navigation Logic */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%; /* Nascondi a destra */
+                width: 100%;
+                height: 100vh;
+                background: var(--col-bg-dark);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                transition: right 0.4s ease-in-out;
+                box-shadow: -5px 0 20px rgba(0,0,0,0.5);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.5rem; /* Più grande su mobile */
+                font-weight: 700;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: var(--nav-height);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 650px;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .hero-tag {
             display: inline-block;
+            padding: 5px 15px;
+            background: rgba(0, 180, 216, 0.1);
+            border: 1px solid var(--col-accent);
+            color: var(--col-accent);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive Typography using clamp */
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem); /* Scala automaticamente */
+            line-height: 1.1;
+            margin-bottom: 25px;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--col-text-muted);
+            margin-bottom: 40px;
+            max-width: 90%;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap; /* A capo su schermi piccoli */
+        }
+        
+        @media (max-width: 480px) {
+            .hero-btns { flex-direction: column; width: 100%; }
+            .btn { width: 100%; }
+        }
+
+        /* 3D Visual in Hero */
+        .hero-visual {
+            position: absolute;
+            right: -10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50%;
+            height: 80%;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (max-width: 992px) {
+            /* Su tablet e mobile nascondiamo o riduciamo l'animazione */
+            .hero-visual {
+                opacity: 0.2;
+                right: -30%;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-visual { display: none; } /* Rimossa su mobile per pulizia */
+            .hero { text-align: center; }
+            .hero-content { margin: 0 auto; max-width: 100%; }
+            .hero p { margin-left: auto; margin-right: auto; }
+        }
+
+        .orbit-system {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            animation: rotate 60s linear infinite;
+        }
+
+        .planet {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, var(--col-accent), var(--col-primary));
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(0, 180, 216, 0.4);
+            z-index: 10;
+        }
+
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .orbit-1 { width: 250px; height: 250px; animation: spin-right 15s linear infinite; }
+        .orbit-2 { width: 400px; height: 400px; animation: spin-left 25s linear infinite; }
+        .orbit-3 { width: 550px; height: 550px; animation: spin-right 35s linear infinite; }
+
+        .satellite {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--col-white);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--col-white);
+            transform: translate(-50%, -50%);
+        }
+
+        /* Cards & Features */
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            z-index: 0;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--col-accent);
+            box-shadow: 0 10px 40px -10px rgba(0, 180, 216, 0.3);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--col-accent);
             margin-bottom: 20px;
         }
 
-        .description {
-            color: #888;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 30px;
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid { grid-template-columns: 1fr; } /* Una colonna su mobile */
         }
 
-        .btn {
-            background: var(--primary);
-            color: #000;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+        /* Matching Algorithm Visualization */
+        .match-types {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap; /* Fondamentale per responsive */
+            margin-top: 50px;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.5);
-            filter: brightness(1.1);
+        .match-card {
+            width: 280px;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            flex: 1 1 280px; /* Flex-grow, Flex-shrink, Basis */
         }
 
-        .btn:active {
-            transform: scale(0.98);
+        .match-card.gold { border-color: var(--col-gold); box-shadow: 0 0 20px rgba(255, 215, 0, 0.1); }
+        .match-card.silver { border-color: var(--col-silver); }
+        .match-card.bronze { border-color: var(--col-bronze); }
+
+        .match-icon { font-size: 3rem; margin-bottom: 15px; }
+        .gold .match-icon { color: var(--col-gold); animation: pulse 2s infinite; }
+        .silver .match-icon { color: var(--col-silver); }
+        .bronze .match-icon { color: var(--col-bronze); }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .tech-item {
+            text-align: center;
+            opacity: 0.7;
+            transition: 0.3s;
+            flex: 0 1 100px;
+        }
+        .tech-item:hover { opacity: 1; transform: scale(1.1); }
+        .tech-item i { font-size: 3rem; margin-bottom: 10px; display: block; }
+        .tech-item span { font-size: 0.9rem; font-weight: 600; }
+
+        /* Roadmap Timeline - Fully Responsive */
+        .roadmap { position: relative; max-width: 800px; margin: 0 auto; }
+        .roadmap::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-50%);
+        }
+        
+        .roadmap-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50px;
+            position: relative;
+            margin-bottom: 60px;
+            width: 50%;
         }
 
-        #status {
-            margin-top: 20px;
-            font-size: 13px;
-            color: var(--primary);
-            height: 20px;
-            opacity: 0;
-            transition: opacity 0.3s;
+        .roadmap-item:nth-child(even) {
+            align-self: flex-end;
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50px;
+            margin-left: 50%;
         }
 
-        .features {
-            text-align: left;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #555;
+        .roadmap-dot {
+            position: absolute;
+            right: -8px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--col-accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--col-accent);
+            z-index: 2;
+        }
+
+        .roadmap-item:nth-child(even) .roadmap-dot { right: auto; left: -8px; }
+
+        /* Mobile Roadmap Logic */
+        @media (max-width: 768px) {
+            .roadmap::before { left: 20px; } /* Linea a sinistra */
+            .roadmap-item { width: 100%; padding-left: 50px; padding-right: 0; margin-left: 0; text-align: left; margin-bottom: 40px; }
+            .roadmap-item:nth-child(even) { margin-left: 0; justify-content: flex-start; }
+            .roadmap-dot, .roadmap-item:nth-child(even) .roadmap-dot { left: 12px; right: auto; }
+        }
+
+        .roadmap-content h4 { color: var(--col-accent); margin-bottom: 5px; }
+        .roadmap-content .status { 
+            font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; 
+            margin-bottom: 10px; display: inline-block; 
+        }
+        .status.done { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .status.wip { background: rgba(255, 215, 0, 0.2); color: var(--col-gold); }
+        .status.todo { background: rgba(255, 255, 255, 0.1); color: var(--col-text-muted); }
+
+        /* Footer */
+        footer {
+            background: #02040a;
+            padding: 80px 0 30px;
             border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 20px;
         }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+            .footer-col p { margin: 0 auto; }
+            .footer-col ul li a { display: block; padding: 5px 0; }
+            .footer-col ul li div { justify-content: center; }
+        }
+
+        .footer-col h3 { margin-bottom: 20px; color: var(--col-white); }
+        .footer-col p { color: var(--col-text-muted); max-width: 300px; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: var(--col-text-muted); }
+        .footer-col ul li a:hover { color: var(--col-accent); }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--col-text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* * ==========================================
+         * 4. ANIMATIONS
+         * ==========================================
+         */
+        @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin-right { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes spin-left { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(-360deg); } }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
+        
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* * ==========================================
+         * 5. MODAL / POPUP
+         * ==========================================
+         */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            padding: 20px; /* Spazio per mobile */
+        }
+
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal-box {
+            background: var(--col-bg-dark);
+            border: 1px solid var(--col-accent);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 450px;
+            width: 100%; /* Si adatta alla larghezza */
+            box-shadow: 0 0 50px rgba(0, 180, 216, 0.3);
+            transform: scale(0.8);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        @media (max-width: 480px) {
+            .modal-box { padding: 30px 20px; }
+        }
+
+        .modal-overlay.active .modal-box { transform: scale(1); }
+
+        .modal-icon {
+            font-size: 3rem;
+            color: var(--col-accent);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--col-text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px; /* Hit area più grande */
+        }
+        .modal-close:hover { color: var(--col-white); }
+
     </style>
 </head>
 <body>
 
-<div class="grid"></div>
+    <canvas id="network-canvas"></canvas>
 
-<div class="container">
-    <div class="version">v4.2.0 Stable</div>
-    <h1>CodeGenerator <span style="color:var(--primary)">PRO</span></h1>
-    <p class="description">Genera codici licenza, gift card e chiavi di accesso istantaneamente con il nostro tool multi-core.</p>
-    
-    <button class="btn" onclick="startDownload()">Scarica Ora</button>
-    
-    <p id="status">Preparazione file in corso...</p>
-
-    <div class="features">
-        • Supporto Windows 10/11<br>
-        • Scansione Cloud-V automatica<br>
-        • Nessuna configurazione richiesta
+    <div class="modal-overlay" id="devModal">
+        <div class="modal-box">
+            <button class="modal-close" id="closeModal"><i class="fas fa-times"></i></button>
+            <div class="modal-icon"><i class="fas fa-code-branch"></i></div>
+            <h3>Web App in Sviluppo. Druv Jhurry!</h3>
+            <p style="margin: 15px 0; color: #a8b2d1;">
+                Grazie per l'interesse! SkillLink è attualmente in fase di costruzione avanzata.
+                <br><br>
+                Torna in futuro per unirti al beta testing.
+            </p>
+            <button class="btn btn-primary" id="modalBtnAction">Ho capito</button>
+        </div>
     </div>
-</div>
 
-<script>
-    function startDownload() {
-        const status = document.getElementById('status');
-        const btn = document.querySelector('.btn');
-
-        // Feedback visivo
-        status.style.opacity = "1";
-        btn.innerText = "Inizializzazione...";
-        btn.style.opacity = "0.7";
-        btn.disabled = true;
-
-        setTimeout(() => {
-            status.innerText = "Download avviato...";
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo interaction-trigger">
+                <i class="fas fa-project-diagram"></i> SkillLink<span class="text-accent">.it</span>
+            </a>
             
-            // Logica di download
-            const fileUrl = 'key.exe'; // Assicurati che il file sia in questa cartella
-            const link = document.createElement('a');
-            link.href = fileUrl;
-            link.download = 'CodeGenerator_Setup.exe';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            <div class="hamburger" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </div>
 
-            // Ripristino pulsante dopo 3 secondi
-            setTimeout(() => {
-                btn.innerText = "Scarica Ora";
-                btn.style.opacity = "1";
-                btn.disabled = false;
-                status.innerText = "Completato!";
-            }, 3000);
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#come-funziona" class="interaction-trigger nav-item-link">Come Funziona</a></li>
+                <li><a href="#matching" class="interaction-trigger nav-item-link">Matching</a></li>
+                <li><a href="#community" class="interaction-trigger nav-item-link">Community</a></li>
+                <li><a href="#roadmap" class="interaction-trigger nav-item-link">Roadmap</a></li>
+                <li><a href="#" class="btn btn-outline interaction-trigger nav-item-link" style="padding: 8px 20px; font-size: 0.9rem;">Accedi</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in-up">
+                <div class="hero-tag">PWA in arrivo • Costo Zero</div>
+                <h1>Baratta le tue <br> <span class="text-gradient">Competenze.</span> <br> Senza Denaro.</h1>
+                <p>
+                    SkillLink è la piattaforma dove il valore sei tu. Io insegno a te, tu insegni a me.
+                    Unisciti alla rivoluzione della conoscenza libera. Guadagna badge, trofei e reputazione reale.
+                </p>
+                <div class="hero-btns">
+                    <button class="btn btn-primary interaction-trigger">Inizia Ora <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></button>
+                    <button class="btn btn-outline interaction-trigger"><i class="fab fa-github" style="margin-right: 10px;"></i> GitHub</button>
+                </div>
+            </div>
             
-        }, 1500);
-    }
-</script>
+            <div class="hero-visual">
+                <div class="orbit-system">
+                    <div class="orbit orbit-1"><div class="satellite"></div></div>
+                    <div class="orbit orbit-2"><div class="satellite"></div></div>
+                    <div class="orbit orbit-3"><div class="satellite"></div></div>
+                    <div class="planet"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="come-funziona" class="section-padding">
+        <div class="container">
+            <div class="text-center fade-in-up" style="margin-bottom: 60px;">
+                <h2 style="font-size: 2.5rem;">Libertà di Imparare</h2>
+                <p style="color: var(--col-text-muted); margin-top: 15px;">Dimentica i pagamenti. Qui la valuta è il tempo e la passione.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="glass-card fade-in-up interaction-trigger">
+                    <i class="fas fa-handshake card-icon"></i>
+                    <h3>Baratto Puro</h3>
+                    <p style="color: var(--col-text-muted); margin-top: 10px;">
+                        Nessuna transazione monetaria. Scambia lezioni di Chitarra per ripetizioni di Python. Il valore è nell'interazione umana.
+                    </p>
+                </div>
+                <div class="glass-card fade-in-up interaction-trigger" style="transition-delay: 0.1s;">
+                    <i class="fas fa-trophy card-icon"></i>
+                    <h3>Gamification Reale</h3>
+                    <p style="color: var(--col-text-muted); margin-top: 10px;">
+                        Ottieni Badge "Sensei", trofei rari e monete virtuali (Coins) solo partecipando. Premiano chi sei veramente.
+                    </p>
+                </div>
+                <div class="glass-card fade-in-up interaction-trigger" style="transition-delay: 0.2s;">
+                    <i class="fas fa-user-shield card-icon"></i>
+                    <h3>Profilo Verificato</h3>
+                    <p style="color: var(--col-text-muted); margin-top: 10px;">
+                        Auth via Google e sistema di feedback. Sicurezza al primo posto con report automatici per utenti scorretti.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="matching" class="section-padding" style="background: linear-gradient(180deg, var(--col-bg-deep) 0%, #081020 100%);">
+        <div class="container">
+            <div class="text-center fade-in-up">
+                <span class="hero-tag">Il Cervello dell'App</span>
+                <h2 style="font-size: 2.5rem;">L'Algoritmo di Matching</h2>
+                <p style="color: var(--col-text-muted); margin-top: 15px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Non mostriamo persone a caso, Il nostro motore SQL su Supabase calcola la compatibilità perfetta.
+                </p>
+            </div>
+
+            <div class="match-types fade-in-up">
+                <div class="match-card gold interaction-trigger">
+                    <div class="match-icon"><i class="fas fa-star"></i></div>
+                    <h3>Perfect Match</h3>
+                    <p style="font-size: 0.9rem; color: #e0e0e0; margin-top: 10px;">
+                        "Io offro ciò che cerchi E tu offri ciò che cerco."<br>
+                        <strong style="color: var(--col-gold);">Priorità Massima</strong>
+                    </p>
+                </div>
+                <div class="match-card silver interaction-trigger">
+                    <div class="match-icon"><i class="fas fa-check-double"></i></div>
+                    <h3>One-Way</h3>
+                    <p style="font-size: 0.9rem; color: #e0e0e0; margin-top: 10px;">
+                        "Tu hai quello che mi serve."<br>
+                        Utile per spendere i tuoi Coins accumulati.
+                    </p>
+                </div>
+                <div class="match-card bronze interaction-trigger">
+                    <div class="match-icon"><i class="fas fa-random"></i></div>
+                    <h3>Discovery</h3>
+                    <p style="font-size: 0.9rem; color: #e0e0e0; margin-top: 10px;">
+                        Esplora nuovi talenti e hobbyisti nella tua zona o online.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="glass-card fade-in-up">
+                <div class="text-center">
+                    <h3 style="margin-bottom: 20px;">Costruito con Tecnologie Moderne</h3>
+                    <p style="color: var(--col-text-muted);">Performance elevate, PWA e Sicurezza dei dati.</p>
+                    
+                    <div class="tech-stack">
+                        <div class="tech-item interaction-trigger">
+                            <i class="fab fa-angular text-gradient"></i>
+                            <span>Angular 17+</span>
+                        </div>
+                        <div class="tech-item interaction-trigger">
+                            <i class="fas fa-database text-accent"></i>
+                            <span>Supabase</span>
+                        </div>
+                        <div class="tech-item interaction-trigger">
+                            <i class="fab fa-google"></i>
+                            <span>Auth</span>
+                        </div>
+                        <div class="tech-item interaction-trigger">
+                            <i class="fas fa-bolt" style="color: #f0db4f;"></i>
+                            <span>Ionic UI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="roadmap" class="section-padding">
+        <div class="container">
+            <div class="text-center fade-in-up" style="margin-bottom: 60px;">
+                <h2>Roadmap Operativa</h2>
+                <p>La trasparenza è il nostro forte. Ecco a che punto siamo.</p>
+            </div>
+
+            <div class="roadmap">
+                <div class="roadmap-item fade-in-up interaction-trigger">
+                    <div class="roadmap-dot"></div>
+                    <div class="roadmap-content">
+                        <span class="status done">Completato</span>
+                        <h4>Infrastruttura & Design</h4>
+                        <p style="font-size: 0.9rem; color: var(--col-text-muted);">
+                            Dominio skilllink.it attivo. Landing page (questa!) operativa. Setup Repo GitHub.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item fade-in-up interaction-trigger">
+                    <div class="roadmap-dot" style="background: var(--col-gold); box-shadow: 0 0 10px var(--col-gold);"></div>
+                    <div class="roadmap-content">
+                        <span class="status wip">In Corso</span>
+                        <h4>Database & Auth</h4>
+                        <p style="font-size: 0.9rem; color: var(--col-text-muted);">
+                            Configurazione tabelle PostgreSQL su Supabase. Implementazione Login Google.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="roadmap-item fade-in-up interaction-trigger">
+                    <div class="roadmap-dot" style="background: var(--col-text-muted); box-shadow: none;"></div>
+                    <div class="roadmap-content">
+                        <span class="status todo">Futuro</span>
+                        <h4>Sistema di Chat</h4>
+                        <p style="font-size: 0.9rem; color: var(--col-text-muted);">
+                            Realtime messaging tra utenti connessi dopo il "Match".
+                        </p>
+                    </div>
+                </div>
+
+                <div class="roadmap-item fade-in-up interaction-trigger">
+                    <div class="roadmap-dot" style="background: var(--col-text-muted); box-shadow: none;"></div>
+                    <div class="roadmap-content">
+                        <span class="status todo">Futuro</span>
+                        <h4>Beta Pubblica</h4>
+                        <p style="font-size: 0.9rem; color: var(--col-text-muted);">
+                            Lancio ai primi 50 utenti tester per verifica bug e feedback.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding text-center">
+        <div class="container">
+            <div class="glass-card fade-in-up" style="border-color: var(--col-primary); background: radial-gradient(circle at center, rgba(0,123,255,0.1), rgba(10,25,47,0.8));">
+                <h2 style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 20px;">Pronto a scambiare?</h2>
+                <p style="margin-bottom: 30px; font-size: 1.2rem;">
+                    Non lasciare che le tue competenze prendano polvere.<br>
+                    SkillLink sta arrivando.
+                </p>
+                <button class="btn btn-primary interaction-trigger" style="padding: 15px 40px; font-size: 1.1rem;">
+                    Unisciti alla Lista d'Attesa
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom: 20px; justify-content: flex-start;">
+                        <i class="fas fa-project-diagram"></i> SkillLink
+                    </div>
+                    <p>
+                        Piattaforma PWA di Social Learning e Baratto Competenze.
+                        Crediamo in un mondo dove imparare non ha costi, solo impegno.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h3>Link Rapidi</h3>
+                    <ul>
+                        <li><a href="#" class="interaction-trigger">Home</a></li>
+                        <li><a href="#" class="interaction-trigger">Chi Siamo</a></li>
+                        <li><a href="#" class="interaction-trigger">Manifesto</a></li>
+                        <li><a href="#" class="interaction-trigger">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contatti</h3>
+                    <ul>
+                        <li><a href="#" class="interaction-trigger">info@skilllink.it</a></li>
+                        <li><a href="#" class="interaction-trigger">Supporto</a></li>
+                        <li>
+                            <div style="display: flex; gap: 15px; margin-top: 10px;">
+                                <a href="#" class="interaction-trigger"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="interaction-trigger"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="interaction-trigger"><i class="fab fa-linkedin"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 SkillLink Project. All rights reserved. Designed for the Future. App in svlippo da Druv Jhurry.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * ==========================================
+         * 1. INTERACTION SYSTEM (MODAL POPUP)
+         * ==========================================
+         */
+        const modal = document.getElementById('devModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const actionModalBtn = document.getElementById('modalBtnAction');
+        const triggers = document.querySelectorAll('.interaction-trigger');
+
+        function showModal(e) {
+            e.preventDefault(); 
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+            
+            // Se siamo su mobile e il menu è aperto, chiudilo
+            if (navLinks.classList.contains('active')) {
+                toggleMenu();
+            }
+        }
+
+        function hideModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; 
+        }
+
+        triggers.forEach(el => {
+            el.addEventListener('click', showModal);
+        });
+
+        closeModalBtn.addEventListener('click', hideModal);
+        actionModalBtn.addEventListener('click', hideModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) hideModal();
+        });
+
+        /**
+         * ==========================================
+         * 2. MOBILE MENU LOGIC
+         * ==========================================
+         */
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const icon = mobileBtn.querySelector('i');
+
+        function toggleMenu() {
+            navLinks.classList.toggle('active');
+            
+            // Cambia icona da bars a times
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        mobileBtn.addEventListener('click', toggleMenu);
+
+        /**
+         * ==========================================
+         * 3. SCROLL ANIMATIONS (INTERSECTION OBSERVER)
+         * ==========================================
+         */
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        /**
+         * ==========================================
+         * 4. ADVANCED CANVAS BACKGROUND ANIMATION
+         * (Responsive Performance)
+         * ==========================================
+         */
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let particles = [];
+        let particleCount; // Dinamico in base allo schermo
+        
+        const connectionDistance = 150; 
+        const moveSpeed = 0.5;
+
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Riduci particelle su mobile per performance
+            particleCount = width < 768 ? 30 : 60;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * moveSpeed;
+                this.vy = (Math.random() - 0.5) * moveSpeed;
+                this.size = Math.random() * 2 + 1;
+                this.color = Math.random() > 0.5 ? '#00b4d8' : '#007bff'; 
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 180, 216, ${1 - distance / connectionDistance})`; 
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
+        });
+
+        // Start
+        resize();
+        initParticles();
+        animate();
+
+        console.log("%c SkillLink Responsive ", "color: #00b4d8; font-size: 20px; font-weight: bold; background: #0a192f; padding: 10px; border-radius: 5px;");
+
+    </script>
 </body>
 </html>
