@@ -1,0 +1,13 @@
+<div class="modal-overlay" [class.active]="isOpen" (click)="closeOnOverlay($event)">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+        <button class="modal-close" (click)="close()"><i class="fas fa-times"></i></button>
+        <div class="modal-icon"><i class="fas fa-code-branch"></i></div>
+        <h3>Web App in Sviluppo. Druv Jhurry!</h3>
+        <p style="margin: 15px 0; color: #a8b2d1;">
+            Grazie per l'interesse! SkillLink è attualmente in fase di costruzione avanzata.
+            <br><br>
+            Torna in futuro per unirti al beta testing.
+        </p>
+        <button class="btn btn-primary" (click)="close()">Ho capito</button>
+    </div>
+</div>

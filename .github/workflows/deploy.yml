@@ -1,0 +1,38 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # O il nome del tuo branch principale (master, devel, etc.)
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Usa la versione di Node compatibile con Angular 17+
+          cache: 'npm'
+
+      - name: Installazione Dipendenze
+        run: npm ci
+
+      - name: Build dell'App Angular
+        # La build base href deve corrispondere al nome della tua repository
+        # Se la repo si chiama "SkillLink", usa --base-href=/SkillLink/
+        # Se usi un dominio custom esterno (es. skilllink.it), rimuovi il parametro --base-href
+        run: npm run build -- 
+        
+      - name: Deploy su GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/skill-link/browser # Per Angular 17+ con build:application l'output è solitamente qui o in ./dist/skill-link

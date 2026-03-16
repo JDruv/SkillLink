@@ -1,0 +1,20 @@
+<nav class="navbar">
+    <div class="container nav-container">
+        <a href="#" class="logo interaction-trigger">
+            <i class="fas fa-project-diagram"></i> SkillLink<span class="text-accent">.it</span>
+        </a>
+
+        <div class="hamburger" (click)="toggleMenu()">
+            <i class="fas" [ngClass]="isMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+        </div>
+
+        <ul class="nav-links" [class.active]="isMenuOpen" (click)="isMenuOpen = false">
+            <li><a href="#come-funziona" class="interaction-trigger nav-item-link">Come Funziona</a></li>
+            <li><a href="#matching" class="interaction-trigger nav-item-link">Matching</a></li>
+            <li><a href="#community" class="interaction-trigger nav-item-link">Community</a></li>
+            <li><a href="#roadmap" class="interaction-trigger nav-item-link">Roadmap</a></li>
+            <li><a href="#" class="btn btn-outline interaction-trigger nav-item-link"
+                    style="padding: 8px 20px; font-size: 0.9rem;">Accedi</a></li>
+        </ul>
+    </div>
+</nav>
