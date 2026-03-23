@@ -38,7 +38,7 @@ Trattandosi di un sito web statico, non hai bisogno di installare dipendenze o s
 1. **Clona o scarica** questo repository sul tuo computer.
 2. Apri la cartella del progetto.
 3. avvia con npm run dev
-4. La landing page si aprirà nel tuo browser predefinito!
+4. visita direttamente il sito (link)[https://www.skilllink.it]
 
 ## 🗺️ Roadmap Attuale
 - [x] Infrastruttura & Design Landing Page
